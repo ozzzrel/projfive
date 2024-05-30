@@ -54,7 +54,7 @@ type InfoMessage struct {
 	Calories     float64       // количество потраченных килокалорий на тренировке
 }
 
-// TrainingInfo возвращает структуру InfoMessage, в которой хранится вся информация о проведенной тренировке.
+// TrainingInfo возвращает труктуру InfoMessage, в которой хранится вся информация о проведенной тренировке.
 func (t Training) TrainingInfo() InfoMessage {
 	// вставьте ваш код ниже
 	info := InfoMessage{
@@ -98,6 +98,8 @@ type Running struct {
 }
 
 // Calories возввращает количество потраченных килокалория при беге.
+// Формула расчета:
+// ((18 * средняя_скорость_в_км/ч + 1.79) * вес_спортсмена_в_кг / м_в_км * время_тренировки_в_часах * мин_в_часе)
 // Это переопределенный метод Calories() из Training.
 func (r Running) Calories() float64 {
 	// вставьте ваш код ниже
@@ -133,9 +135,8 @@ type Walking struct {
 func (w Walking) Calories() float64 {
 	// вставьте ваш код ниже
 	squareMeanSpeed := math.Pow(w.meanSpeed()*KmHInMsec, 2)
-	HeightIM := w.Height * CmInM
+	HeightIM := w.Height / CmInM
 	return ((CaloriesWeightMultiplier*w.Weight + (squareMeanSpeed/HeightIM)*CaloriesSpeedHeightMultiplier*w.Weight) * w.Duration.Hours() * MinInHours)
-
 }
 
 // TrainingInfo возвращает структуру InfoMessage с информацией о проведенной тренировке.
@@ -190,7 +191,6 @@ func (s Swimming) TrainingInfo() InfoMessage {
 		Calories:     s.Calories(),
 	}
 	return infoSwim
-
 }
 
 // ReadData возвращает информацию о проведенной тренировке.
